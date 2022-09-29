@@ -43,8 +43,9 @@ namespace SPExam
             try
             {
                 string[] dirs = Directory.GetDirectories(path);
+                string[] files = Directory.GetFiles(path);
+                if (dirs.Length == 0 && files.Length == 0) return;
 
-                if (dirs.Length == 0) return;
 
                 foreach (string dir in dirs)
                 {
@@ -54,6 +55,15 @@ namespace SPExam
 
                     GetChildNode(dirNode, dir);
                     driveNode.Nodes.Add(dirNode);
+                }
+
+                foreach (string file in files)
+                {
+                    TreeNode fileNode = new TreeNode();
+                    fileNode.Text = file.Remove(0, file.LastIndexOf("\\") + 1);
+                    fileNode.Tag = file;
+                                        
+                    driveNode.Nodes.Add(fileNode);
                 }
 
             }
